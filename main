@@ -86,19 +86,19 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
 
-        printf("Welcome to Register Session\n");
+        printf("======== Welcome to Register Session =========\n");
         fflush(stdin);
-        printf("Enter your username: ");
+        printf("==>Enter your username: ");
         fgets(username, 20, stdin);
         username[strcspn(username, "\n")] = 0;
-        printf("\nEnter your password: ");
+        printf("\n==>Enter your password: ");
         fgets(password, 20, stdin);
         password[strcspn(password, "\n")] = 0;
     pass:
-        printf("\nRe-confirm password: ");
+        printf("\n==>Re-confirm password: ");
         fgets(passcheck, 20, stdin);
         passcheck[strcspn(passcheck, "\n")] = 0;
-
+        printf("\n==============================================\n");
 
         while (password != passcheck)
         {
@@ -156,24 +156,81 @@ login:
 
     if ((strcmp(usernameinput, username) == 0) && (strcmp(passwordinput, password) == 0))
     {
+        printf("===============================\n");
         printf("|Login Succes!, Welcome %s|\n", username);
+    menu:
+        printf("===============================\n");
+        printf("|Who Wants To Be a Millionaire|\n");
+        printf("===============================\n");
+        printf("|          Main Menu          |\n");
+        printf("|          1. Play            |\n");
+        printf("|          2. Rules           |\n");
+        printf("|          3. FAQ             |\n");
+        printf("|          4. Exit            |\n");
+        printf("===============================\n");
+        fflush(stdin);
+        printf("Please insert an input : ");
+        scanf("%d", &choose);
 
-        for (int i = 0; i < 5; i++)
+        if (choose == 1)
         {
-            displayquestion(question[i], option[i]);
-            int answer;
-            printf("Pull up your answer (1-4): ");
-            scanf("%d", &answer);
-            if (answerchecker(answer, correctanswer[i]))
+            system("cls");
+            for (int i = 0; i < 5; i++)
             {
-                score += 200000;
+                displayquestion(question[i], option[i]);
+                int answer;
+                printf("Pull up your answer (1-4): ");
+                scanf("%d", &answer);
+                if (answerchecker(answer, correctanswer[i]))
+                {
+                    score += 200000;
+                }
+                else
+                {
+                    printf("You failed in this game\n");
+                    printf("Your total score is: %d\n", score);
+                    exit(0);
+                }
             }
-            else
-            {
-                printf("You failed in this game\n");
-                printf("Your total score is: %d\n", score);
-                exit(0);
-            }
+        }
+        else if (choose == 2)
+        {
+            printf("=========================================\n");
+            printf("||             GAME RULES              ||\n");
+            printf("=========================================\n");
+            printf("1. There are 5 questions that must be answered to win the grand prize of 1 million Dollar\n");
+            printf("2. Each question has 4 answer choices, only one answer is correct\n");
+            printf("3. If you answer correctly, the prize value will continue to increase, but if you answer incorrectly, the game will stop and you will be considered a failure.\n");
+            printf("4. At the end of each question you will be given the opportunity to decide whether to continue the game or stop\n");
+            printf("5. If the player chooses to stop, the prize will be adjusted to the total prize that has been accumulated\n\n");
+            fflush(stdin);
+            printf("Press enter to continue : ");
+            getchar();
+            system("cls");
+            goto menu;
+        }
+
+        else if (choose == 3)
+        {
+            printf("=========================================\n");
+            printf("||    Frequently Asked Questions       ||\n");
+            printf("=========================================\n");
+            printf("Q:For what purpose is this program created?.\n");
+            printf("A:This program was created to fulfill the assignment of the final semester exam in the programming lab.\n\n");
+            printf("Q:Who are the people behind the making of this program?.\n");
+            printf("A:The people behind the making of this program are Ganang Setyo Hadi, Milaufatul Rizka, Nuri Masyitah, and Nazwa Salsabila.\n\n");
+            printf("Q:Where can the programming documentation be seen?.\n");
+            printf("A:You can see it at https://github.com/notsuperganang/uas-pemro.\n\n");
+            fflush(stdin);
+            printf("Press enter to continue : ");
+            getchar();
+            system("cls");
+            goto menu;
+        }
+        else
+        {
+            system("cls");
+            return EXIT_SUCCESS;
         }
     }
 

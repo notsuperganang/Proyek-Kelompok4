@@ -31,6 +31,18 @@ int answerchecker(int answer, int correctanswer)
     }
 }
 
+void welcome()
+{
+    printf("==================================================\n");
+    printf("||                   Welcome to                 ||\n");
+    printf("||          Who Wants To Be A Millionaire       ||\n");
+    printf("==================================================\n");
+    printf("||        Get ready to play and win big!        ||\n");
+    printf("==================================================\n");
+    printf("Lets create an account first\n");
+    printf("1. Yes\n");
+    printf("2. No\n");
+}
 
 int main(int argc, char *argv[])
 {
@@ -62,11 +74,59 @@ int main(int argc, char *argv[])
         goto login;
     }
 
-    // jika tidak maka register
+    welcome();
+    printf("Please insert an input : ");
+    scanf("%d", &input);
 
-    // char usernameinput[10], passwordinput[10];
-    // strcpy(usernameinput, argv[1]);
-    // strcpy(passwordinput, argv[2]);
+    if (input == 1)
+    {
+        if ((fp = fopen("database/login.bin", "wb")) == NULL)
+        {
+            printf("Error!\n");
+            return EXIT_FAILURE;
+        }
+
+        printf("Welcome to Register Session\n");
+        fflush(stdin);
+        printf("Enter your username: ");
+        fgets(username, 20, stdin);
+        username[strcspn(username, "\n")] = 0;
+        printf("\nEnter your password: ");
+        fgets(password, 20, stdin);
+        password[strcspn(password, "\n")] = 0;
+    pass:
+        printf("\nRe-confirm password: ");
+        fgets(passcheck, 20, stdin);
+        passcheck[strcspn(passcheck, "\n")] = 0;
+
+
+        while (password != passcheck)
+        {
+            if (strcmp(password, passcheck) == 0)
+            {
+                printf("\nYour account has been created\n");
+                break;
+            }
+            else
+            {
+                printf("\nInvalid password!!\n");
+                goto pass;
+            }
+        }
+
+        sprintf(account, "%s@%s", username, password);
+        fwrite(account, sizeof(char), sizeof(account) / sizeof(char), fp);
+        fputc('\n', fp);
+
+        fclose(fp);
+        printf("Please proceed to login by : ./FileMainProgram.exe username password\n");
+
+        return EXIT_SUCCESS;
+    }
+    else
+    {
+        return EXIT_FAILURE;
+    }
 
 login:
     if ((fp = fopen("database/login.bin", "rb")) == NULL)

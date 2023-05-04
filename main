@@ -1,68 +1,125 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
-// Function to display the question and start timer
-void displayQuestion(char *question, char *options[], int *answer, time_t *startTime) {
+// Fungsi untuk menampilkan question
+void displayquestion(char *question, char *option[])
+{
     printf("%s\n", question);
-    for (int i = 0; i < 4; i++) {
-        printf("%d. %s\n", i+1, options[i]);
+    for (int i = 0; i < 4; i++)
+    {
+        printf("    %d. %s\n", i + 1, option[i]);
     }
-    printf("Enter your answer (1-4): ");
-    scanf("%d", answer);
-    *startTime = time(NULL);
 }
 
-// Function to check the answer given by the user
-int checkAnswer(int answer, int correctAnswer) {
-    if (answer == correctAnswer) {
-        printf("Your answer is correct!\n");
+// Fungsi untuk memeriksa answer yang diberikan oleh pengguna
+int answerchecker(int answer, int correctanswer)
+{
+    if (answer == correctanswer)
+    {
+        printf("\n-------------------------\n");
+        printf("|Your answer is correct!|\n");
+        printf("-------------------------\n\n");
         return 1;
-    } else {
-        printf("Your answer is incorrect. The correct answer is option %d\n", correctAnswer);
+    }
+    else
+    {
+        printf("-----------------------------------------------\n");
+        printf("|Your answer is wrong. The correct answer is %d|\n", correctanswer);
+        printf("-----------------------------------------------\n\n");
         return 0;
     }
 }
 
-int main() {
-    char *questions[5] = {
-        "What is the capital city of Indonesia?",
-        "Who was the first president of Indonesia?",
-        "Who invented the telephone?",
-        "Who created the computer algorithm?",
-        "Who invented Microsoft Windows?"
-    };
 
-    char *options[5][4] = {
-        {"A. Jakarta", "B. Surabaya", "C. Bandung", "D. Bali"},
-        {"A. Joko Widodo", "B. Susilo Bambang Yudhoyono", "C. Soekarno", "D. Megawati Soekarnoputri"},
-        {"A. Thomas Alva Edison", "B. Alexander Graham Bell", "C. Nikola Tesla", "D. Michael Faraday"},
-        {"A. Ada Lovelace", "B. Charles Babbage", "C. Alan Turing", "D. Tim Berners-Lee"},
-        {"A. Bill Gates", "B. Steve Jobs", "C. Mark Zuckerberg", "D. Jeff Bezos"}
-    };
+int main(int argc, char *argv[])
+{
+    system("cls");
+    char username[20], password[20], passcheck[20];
+    char account[20];
+    int cntrl = 0, found = 0, choose;
+    char *question[5] = {
+        "1. What is the capital city of Indonesia?",
+        "2. Who is the first president of Indonesia?",
+        "3. Who is the founder of Thelephone?",
+        "4. Who is the founder of computer algorithm?",
+        "5. Who is the founder of Microsoft?"};
 
-    int correctAnswers[5] = {1, 3, 2, 3, 1};
-    int score = 0;
-    int answer;
-    time_t startTime, currentTime;
+    char *option[5][4] = {
+        {"Jakarta", "Surabaya", "Bandung", "Bali"},
+        {"Joko Widodo", "Susilo Bambang Yudhoyono", "Soekarno", "Megawati Soekarnoputri"},
+        {"Thomas Alva Edison", "Alexander Graham Bell", "Nikola Tesla", "Michael Faraday"},
+        {"Ada Lovelace", "Charles Babbage", "Alan Turing", "Tim Berners-Lee"},
+        {"Bill Gates", "Steve Jobs", "Mark Zuckerberg", "Jeff Bezos"}};
 
-    // Loop to ask questions
-    for (int i = 0; i < 5; i++) {
-        displayQuestion(questions[i], options[i], &answer, &startTime);
-        currentTime = time(NULL);
-        if (checkAnswer(answer, correctAnswers[i]) && (currentTime - startTime) <= 10) {
-            score += 200000;
-        } else {
-            printf("You have failed in this game\n");
-            printf("Your total score: %d\n", score);
-            exit(0);
+    int correctanswer[5] = {1, 3, 2, 2, 1};
+    int score = 0, input;
+
+    FILE *fp;
+
+    if (argc == 3)
+    {
+        goto login;
+    }
+
+    // jika tidak maka register
+
+    // char usernameinput[10], passwordinput[10];
+    // strcpy(usernameinput, argv[1]);
+    // strcpy(passwordinput, argv[2]);
+
+login:
+    if ((fp = fopen("database/login.bin", "rb")) == NULL)
+    {
+        printf("Error!, Opening file failed!");
+        return EXIT_FAILURE;
+    }
+
+    char usernameinput[10], passwordinput[10];
+    strcpy(usernameinput, argv[1]);
+    strcpy(passwordinput, argv[2]);
+
+    fread(account, sizeof(char), sizeof(account) / sizeof(char), fp);
+
+    fclose(fp);
+
+    char *record[3];
+
+    record[0] = strtok(account, "@");
+    while (record[cntrl++] != NULL)
+    {
+        record[cntrl] = strtok(NULL, "@");
+    }
+
+    strcpy(username, record[0]);
+    strcpy(password, record[1]);
+
+    if ((strcmp(usernameinput, username) == 0) && (strcmp(passwordinput, password) == 0))
+    {
+        printf("|Login Succes!, Welcome %s|\n", username);
+
+        for (int i = 0; i < 5; i++)
+        {
+            displayquestion(question[i], option[i]);
+            int answer;
+            printf("Pull up your answer (1-4): ");
+            scanf("%d", &answer);
+            if (answerchecker(answer, correctanswer[i]))
+            {
+                score += 200000;
+            }
+            else
+            {
+                printf("You failed in this game\n");
+                printf("Your total score is: %d\n", score);
+                exit(0);
+            }
         }
     }
 
-    // If the user successfully answers all questions
-    printf("Congratulations, you have won a prize of Rp 1,000,000\n");
-    printf("Your total score: %d\n", score);
+    // Jika pengguna berhasil menjawab semua question
+    printf("Congratulation!, you won the prize of $1.000.000\n");
+    printf("Your total score is: %d\n", score);
 
     return 0;
 }

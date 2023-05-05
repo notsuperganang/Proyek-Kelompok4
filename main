@@ -74,9 +74,31 @@ int main(int argc, char *argv[])
         goto login;
     }
 
-    welcome();
-    printf("Please insert an input : ");
-    scanf("%d", &input);
+    while (1)
+    {
+        welcome();
+        printf("Please insert an input : ");
+        if (scanf("%d", &input) == 1) // memvalidasi bahwa user memasukkan bilangan bulat dan bukan karakter
+        {
+            if (input < 1 || input > 2)
+            {
+                system("cls");
+                printf("==========================================\n");
+                printf("|Please enter according to the procedure!|\n");
+                printf("==========================================\n");
+                continue;
+            }
+            break;
+        }
+        else
+        {
+            system("cls");
+            printf("=========================================\n");
+            printf("|Invalid input. Please enter an integer!|\n");
+            printf("=========================================\n");
+            scanf("%*[^\n]"); // membersihkan buffer input
+        }
+    }
 
     if (input == 1)
     {
@@ -169,8 +191,29 @@ login:
         printf("|          4. Exit            |\n");
         printf("===============================\n");
         fflush(stdin);
-        printf("Please insert an input : ");
-        scanf("%d", &choose);
+        while (1)
+        {
+            printf("Please insert an input : ");
+            if (scanf("%d", &input) == 1) // memvalidasi bahwa user memasukkan bilangan bulat dan bukan karakter
+            {
+                if (input < 1 || input > 4)
+                {
+                    printf("==========================================\n");
+                    printf("|Please enter according to the procedure!|\n");
+                    printf("==========================================\n");
+                    continue;
+                }
+                choose = input;
+                break;
+            }
+            else
+            {
+                printf("=========================================\n");
+                printf("|Invalid input. Please enter an integer!|\n");
+                printf("=========================================\n");
+                scanf("%*[^\n]"); // membersihkan buffer input
+            }
+        }
 
         if (choose == 1)
         {
@@ -191,8 +234,52 @@ login:
                     printf("Your total score is: %d\n", score);
                     exit(0);
                 }
+                while (1)
+                {
+                    if (i == 4)
+                    {
+                        break;
+                    }
+                    printf("Do you want to continue the game?\n");
+                    printf("1. Yes\n");
+                    printf("2. No\n");
+                    printf("Please insert an input : ");
+                    if (scanf("%d", &input) == 1) // memvalidasi bahwa user memasukkan bilangan bulat dan bukan karakter
+                    {
+                        if (input < 1 || input > 2)
+                        {
+                            // system("cls");
+                            printf("==========================================\n");
+                            printf("|Please enter according to the procedure!|\n");
+                            printf("==========================================\n");
+                            continue;
+                        }
+                        choose = input;
+                        break;
+                    }
+                    else
+                    {
+                        // system("cls");
+                        printf("=========================================\n");
+                        printf("|Invalid input. Please enter an integer!|\n");
+                        printf("=========================================\n");
+                        scanf("%*[^\n]"); // membersihkan buffer input
+                    }
+                }
+                if (choose == 1)
+                {
+                    printf("\n");
+                    continue;
+                }
+                else if (choose == 2)
+                {
+                    printf("Your total score is: %d\n", score);
+                    printf("Your total prize is : $%d\n", score);
+                    exit(0);
+                }
             }
         }
+
         else if (choose == 2)
         {
             printf("=========================================\n");

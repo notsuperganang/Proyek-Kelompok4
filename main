@@ -305,7 +305,7 @@ login:
             printf("Q:For what purpose is this program created?.\n");
             printf("A:This program was created to fulfill the assignment of the final semester exam in the programming lab.\n\n");
             printf("Q:Who are the people behind the making of this program?.\n");
-            printf("A:The people behind the making of this program are Ganang Setyo Hadi, Milaufatul Rizka, Nuri Masyitah, and Nazwa Salsabila.\n\n");
+            printf("A:The people behind the making of this program are Ganang Setyo Hadi, Milaulfatul Rizka, Nuri Masyitah, and Nazwa Salsabila.\n\n");
             printf("Q:Where can the programming documentation be seen?.\n");
             printf("A:You can see it at https://github.com/notsuperganang/Proyek-Kelompok4\n\n");
             fflush(stdin);

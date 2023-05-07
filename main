@@ -307,7 +307,7 @@ login:
             printf("Q:Who are the people behind the making of this program?.\n");
             printf("A:The people behind the making of this program are Ganang Setyo Hadi, Milaufatul Rizka, Nuri Masyitah, and Nazwa Salsabila.\n\n");
             printf("Q:Where can the programming documentation be seen?.\n");
-            printf("A:You can see it at https://github.com/notsuperganang/uas-pemro.\n\n");
+            printf("A:You can see it at https://github.com/notsuperganang/Proyek-Kelompok9\n\n");
             fflush(stdin);
             printf("Press enter to continue : ");
             getchar();
@@ -322,8 +322,13 @@ login:
     }
 
     // Jika pengguna berhasil menjawab semua question
-    printf("Congratulation!, you won the prize of $1.000.000\n");
-    printf("Your total score is: %d\n", score);
-
+    printf("===================================================\n");
+    printf("||               CONGRATULATION!!!               ||\n");
+    printf("===================================================\n");
+    printf("||           You Won The Grand Prize!!           ||\n");
+    printf("||                  $1.000.000                   ||\n");
+    printf("===================================================\n");
+    printf("||         Your total score is: %d          ||\n", score);
+    printf("===================================================\n");
     return 0;
 }
